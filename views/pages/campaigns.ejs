@@ -64,7 +64,7 @@
                 <!-- Sidebar Holder -->
                 <nav id="sidebar">
                     <ul class="list-unstyled components" id="menu-list">
-                        <li  id="home-menu">
+                        <li id="home-menu">
                             <a href="htest">
                             <i class="glyphicon glyphicon-home"></i>
                             Home<span id="badge-id" class="badge custom-badge">4</span>
@@ -109,7 +109,75 @@
                 </nav>
                 <!-- Page Content Holder -->
                 <div id="content" class="cont-style">
-                </div>                    
+                    <div class="row col-md-12">
+                        Campaign
+                    </div>
+                    <div class="row col-md-12">
+                        <% for (var i = 0; i < campaigns.length; i++) { %>
+                            <div class="row col-md-12">
+                                <label for="<%- campaigns[i].name %>"><%= campaigns[i].name %></label>
+                            </div>
+                            <% } %>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addCampaignModal">Add Campaign</button>
+                    </div>
+                </div>
+                <div id="addCampaignModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class='col-sm-6'>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="name" placeholder="campaign name" id="cmpgnname" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="description" placeholder="campaign description" id="cmpgndesc" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="checkbox" class="form-control" name="active" id="cmpgnactive" />                                                    is Active
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" placeholder="start date" />
+                                                    <span class="input-group-addon">
+                                                      <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class='input-group' id='datetimepicker2'>
+                                                    <input type='text' class="form-control" placeholder="end date" />
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="addCmpnBtn">Add Campaign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -118,15 +186,97 @@
 
     </div>
 
-<div cl
-
-
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="/javascripts/htest.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+    <div cl <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="/javascripts/htest.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+        <script type="text/javascript">
+            var categories = [];
+            var campaigns = [];
+            var items = [];
+            var wishlist = [];
+            var organisation = {};
+            function handleResponse(xhr, status) {
+              switch (status) {
+                case "success": {
+                  window.location = "/";
+                  break;
+                }
+                case "error": {
+                  break;
+                }
+              }
+            }
+            $(function () {
+              moment().format();
+              $('#datetimepicker1').datetimepicker();
+              $('#datetimepicker2').datetimepicker();
+              $("#addCatBtn").click(function () {
+                var categoryName = $("#catname").val().trim();
+                makeApiCall("post", "/category", { name: categoryName }, handleResponse);
+              });
+        
+              $("#addItemBtn").click(function () {
+                var categoryID = $("#categoryList").val();
+                var itemName = $("#itemName").val();
+                var itemPrice = $("#itemPrice").val();
+                var itemURL = $("#itemUrl").val();
+                makeApiCall("post", "/item", {
+                  categoryID: categoryID,
+                  name: itemName,
+                  price: itemPrice,
+                  url: itemURL
+                }, handleResponse);
+              });
+        
+              $("#addCmpnBtn").click(function () {
+                var campaignName = $("#cmpgnname").val();
+                var isActive = $("#cmpgnactive").val() === "on";
+                var description = $("#cmpgndesc").val();
+                var startDate = $("#datetimepicker1").data("DateTimePicker").date().toDate();
+                var endDate = $("#datetimepicker2").data("DateTimePicker").date().toDate();
+                makeApiCall("post", "/campaign", {
+                  name: campaignName,
+                  description: description,
+                  active: isActive,
+                  startDate: startDate,
+                  endDate: endDate
+                }, handleResponse);
+              });
+        
+              $("#addWshlstBtn").click(function () {
+                var campaignID = $("#campaignList").val();
+                var itemID = $("#itemList").val();
+                var quantity = $("#itemQuantity").val();
+                var denomination = $("#itemDenomination").val();
+                makeApiCall("post", "/organisation/wishlist", {
+                  campaignID: campaignID,
+                  itemID: itemID,
+                  quantity: quantity,
+                  denomination: denomination
+                }, handleResponse);
+              });
+            });
+        
+            // btn click listeners
+        
+        
+        
+            function makeApiCall(verb, resource, params, callback) {
+              $.ajax({
+                type: verb,
+                url: resource,
+                data: params,
+                headers: {
+                  Accept: "application/json"
+                },
+                success: callback,
+                error: callback
+              })
+            }
+          </script>
 </body>
 
 </html>

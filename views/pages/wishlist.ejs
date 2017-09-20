@@ -109,25 +109,31 @@
                 </nav>
                 <!-- Page Content Holder -->
                 <div id="content" class="cont-style">
-                    <div class="row col-md-12 custom-cat">
-                       <h1 style="text-shadow: 1px 2px darkgrey "><span class="label label-primary">Categories </span></h1> 
+                    <div class="row col-md-12">
+                        Wishlist
                     </div>
-                    <div class="row col-md-12 ">
-                        <% for (var i = 1; i < categories.length; i++) { %>
+                    <div class="row col-md-12">
+                        <% for (var i = 0; i < wishlist.length; i++) { %>
                             <div class="row col-md-12">
-                                <div class="alert alert-info" style="font-weight: bold;margin-bottom: 1em;">
-                                                                            
-                                             (<%= i %>) <%= categories[i].name %>                                       
-                                    
-                                </div>
+                                <label for="<%- wishlist[i].name %>"><%= wishlist[i].name %></label>
+                                <ul>
+                                    <% for (var j = 0; j < wishlist[i].wishlists.length; j++) { %>
+                                        <li>
+                                            <%- wishlist[i].wishlists[j].item.name %> (
+                                                <%- wishlist[i].wishlists[j].quantity %>
+                                                    <%- wishlist[i].wishlists[j].denomination %> ) --
+                                                        <%- wishlist[i].wishlists[j].item.price %> $ </li>
+                                        <% } %>
+                                </ul>
+
                             </div>
                             <% } %>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addWishListModal">Add Wishlist</button>
                     </div>
-
                 </div>
-                <!-- Modal -->
-                <div id="addCategoryModal" class="modal fade" role="dialog">
+
+
+                <div id="addWishListModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
                         <!-- Modal content-->
@@ -137,11 +143,24 @@
                                 <h4 class="modal-title">Modal Header</h4>
                             </div>
                             <div class="modal-body">
-                                <input type="text" name="name" placeholder="category name" id="catname" /><br />
+                                <div class="form-group">
+                                    <select id="campaignList">
+                                <% for (var i = 0; i < campaigns.length; i++) { %>
+                                <option value="<%- campaigns[i].id %>"><%- campaigns[i].name %></option>
+                                <% } %>
+                              </select>
+                                    <select id="itemList">
+                                  <% for (var i = 0; i < items.length; i++) { %>
+                                  <option value="<%- items[i].id %>"><%- items[i].name %></option>
+                                  <% } %>
+                                </select>
+                                    <input type='text' class="form-control" placeholder="quantity" id="itemQuantity" />
+                                    <input type='text' class="form-control" placeholder="denomination" id="itemDenomination" />
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" id="addCatBtn">Add Category</button>
+                                <button type="button" class="btn btn-success" id="addWshlstBtn">Add Wishlist</button>
                             </div>
                         </div>
 
@@ -170,23 +189,84 @@
             var wishlist = [];
             var organisation = {};
             function handleResponse(xhr, status) {
-                switch (status) {
-                    case "success": {
-                        window.location = "/";
-                        break;
-                    }
-                    case "error": {
-                        break;
-                    }
+              switch (status) {
+                case "success": {
+                  window.location = "/";
+                  break;
                 }
+                case "error": {
+                  break;
+                }
+              }
             }
             $(function () {
-
-               
+              moment().format();
+              $('#datetimepicker1').datetimepicker();
+              $('#datetimepicker2').datetimepicker();
+              $("#addCatBtn").click(function () {
+                var categoryName = $("#catname").val().trim();
+                makeApiCall("post", "/category", { name: categoryName }, handleResponse);
+              });
+        
+              $("#addItemBtn").click(function () {
+                var categoryID = $("#categoryList").val();
+                var itemName = $("#itemName").val();
+                var itemPrice = $("#itemPrice").val();
+                var itemURL = $("#itemUrl").val();
+                makeApiCall("post", "/item", {
+                  categoryID: categoryID,
+                  name: itemName,
+                  price: itemPrice,
+                  url: itemURL
+                }, handleResponse);
+              });
+        
+              $("#addCmpnBtn").click(function () {
+                var campaignName = $("#cmpgnname").val();
+                var isActive = $("#cmpgnactive").val() === "on";
+                var description = $("#cmpgndesc").val();
+                var startDate = $("#datetimepicker1").data("DateTimePicker").date().toDate();
+                var endDate = $("#datetimepicker2").data("DateTimePicker").date().toDate();
+                makeApiCall("post", "/campaign", {
+                  name: campaignName,
+                  description: description,
+                  active: isActive,
+                  startDate: startDate,
+                  endDate: endDate
+                }, handleResponse);
+              });
+        
+              $("#addWshlstBtn").click(function () {
+                var campaignID = $("#campaignList").val();
+                var itemID = $("#itemList").val();
+                var quantity = $("#itemQuantity").val();
+                var denomination = $("#itemDenomination").val();
+                makeApiCall("post", "/organisation/wishlist", {
+                  campaignID: campaignID,
+                  itemID: itemID,
+                  quantity: quantity,
+                  denomination: denomination
+                }, handleResponse);
+              });
             });
+        
             // btn click listeners
-        </script>
-    </div>
+        
+        
+        
+            function makeApiCall(verb, resource, params, callback) {
+              $.ajax({
+                type: verb,
+                url: resource,
+                data: params,
+                headers: {
+                  Accept: "application/json"
+                },
+                success: callback,
+                error: callback
+              })
+            }
+          </script>
 </body>
 
 </html>
