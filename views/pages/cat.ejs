@@ -10,12 +10,13 @@
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="stylesheets/style4.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-default  custom-nav" id="navid">
+    <nav class="navbar navbar-default navbar-fixed-top  custom-nav" id="navid">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -86,7 +87,7 @@
 
                         </li>
                         <li class="active" id="cat-menu">
-                            <a href="categories">
+                            <a href="cat">
                             <i class="glyphicon glyphicon-link"></i>
                             Categories
                         </a>
@@ -109,20 +110,42 @@
                 </nav>
                 <!-- Page Content Holder -->
                 <div id="content" class="cont-style">
-                    <div class="row col-md-12 custom-cat">
-                       <h1 style="text-shadow: 1px 2px darkgrey "><span class="label label-primary">Categories </span></h1> 
-                    </div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item "><span style="color:#007bff;font-weight: bold">Categories</span></li>
+                    </ol>
                     <div class="row col-md-12 ">
-                        <% for (var i = 1; i < categories.length; i++) { %>
-                            <div class="row col-md-12">
-                                <div class="alert alert-info" style="font-weight: bold;margin-bottom: 1em;">
-                                                                            
-                                             (<%= i %>) <%= categories[i].name %>                                       
-                                    
-                                </div>
-                            </div>
-                            <% } %>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="item-table">
+                                <thead>
+                                    <tr class="alert alert-info">
+                                        <th>Row</th>
+                                        
+                                        <th>Category</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (var i = 1; i < categories.length; i++) { %>
+                                        <tr style="font-weight: bolder;font-family: Courier New, Courier, monospace">
+                                            <td>
+                                                <%= i %>
+                                            </td>
+                                            <td >
+                                                <%= categories[i].name %>
+                                            </td>
+                                            
+                                            
+
+                                        </tr>
+                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--table end-->
+
+
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
                     </div>
 
                 </div>
@@ -134,7 +157,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">Add New Category</h4>
                             </div>
                             <div class="modal-body">
                                 <input type="text" name="name" placeholder="category name" id="catname" /><br />
@@ -182,7 +205,7 @@
             }
             $(function () {
 
-               
+
             });
             // btn click listeners
         </script>

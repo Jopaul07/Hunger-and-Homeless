@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 3</title>
+    <title>Hunger And Homeless</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap-datetimepicker.min.css">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="stylesheets/style4.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-default  custom-nav" id="navid">
+    <nav class="navbar navbar-default navbar-fixed-top custom-nav" id="navid">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -109,16 +110,43 @@
                 </nav>
                 <!-- Page Content Holder -->
                 <div id="content" class="cont-style">
-                    <div class="row col-md-12">
-                        Campaign
+                    <!--div class="row col-md-12 custom-cat">
+                        <h2 style="text-shadow: 1px 2px darkgrey;text-align: center "><span class="label label-info">Campaigns </span></h1>
+                    </div-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item "><span style="color:#007bff;font-weight: bold">Campaigns</span></li>
+
+                    </ol>
+                    <div style="text-align: center" id="addcm">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCampaignModal" style="outline:none;border-color: white">
+                                Add Campaign</button></div>
+                    <div class="row col-md-12" id="addb" style="text-align: center">
+                        <a>
+                            <i class="glyphicon glyphicon-plus-sign vis" data-toggle="modal" data-target="#addCampaignModal"></i>
+                        </a>
+
                     </div>
-                    <div class="row col-md-12">
-                        <% for (var i = 0; i < campaigns.length; i++) { %>
-                            <div class="row col-md-12">
-                                <label for="<%- campaigns[i].name %>"><%= campaigns[i].name %></label>
+
+                    <div id="camp" style="font-weight: bolder;font-family: Courier New, Courier, monospace">
+                        <% for (var i = 1; i < campaigns.length; i++) { %>
+                            <div class="row col-md-12" style="text-align: center">
+                                <div id="capmcnt<%= i %>">
+                                    <button class="btn btn-danger butt" type="button" data-toggle="collapse" data-target='#camp<%= i %>' aria-expanded="false"
+                                        aria-controls="footwear" style="outline:none;" id="button<%= i %>">
+                                        <b><%= campaigns[i].name %></b><span style="color:aqua;margin-left: 2em;"><%= campaigns[i].sdate %> <%= campaigns[i].edate %></span>
+                                        
+                                     </button>
+                                    <span style="font-size: 2em;color:teal" id="cross<%= i %>" class="removec"><a><i class="glyphicon glyphicon-remove-sign"></a></i></span>
+                                    <div class="collapse" id="camp<%= i %>" style="text-align:center;">
+                                        <p><span><%= campaigns[i].name %> arments worn on the feet, about campaign.</span>
+                                            <span style="display:block"><b>Start Date:<%= campaigns[i].sdate %></b></span>
+                                            <span><b>End Date:<%= campaigns[i].edate %></b></span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                             <% } %>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addCampaignModal">Add Campaign</button>
+
                     </div>
                 </div>
                 <div id="addCampaignModal" class="modal fade" role="dialog">
@@ -128,7 +156,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">Add New Campaign</h4>
                             </div>
                             <div class="modal-body">
 
@@ -147,7 +175,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group">
-                                                    <input type="checkbox" class="form-control" name="active" id="cmpgnactive" />                                                    is Active
+                                                    <label><input type="checkbox" name="active" id="cmpgnactive" />Check if Active Now.</label>
                                                 </div>
                                             </div>
 
@@ -192,91 +220,41 @@
         <!-- Bootstrap Js CDN -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+        <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript">
             var categories = [];
             var campaigns = [];
             var items = [];
             var wishlist = [];
             var organisation = {};
-            function handleResponse(xhr, status) {
-              switch (status) {
-                case "success": {
-                  window.location = "/";
-                  break;
-                }
-                case "error": {
-                  break;
-                }
-              }
-            }
             $(function () {
-              moment().format();
-              $('#datetimepicker1').datetimepicker();
-              $('#datetimepicker2').datetimepicker();
-              $("#addCatBtn").click(function () {
-                var categoryName = $("#catname").val().trim();
-                makeApiCall("post", "/category", { name: categoryName }, handleResponse);
-              });
-        
-              $("#addItemBtn").click(function () {
-                var categoryID = $("#categoryList").val();
-                var itemName = $("#itemName").val();
-                var itemPrice = $("#itemPrice").val();
-                var itemURL = $("#itemUrl").val();
-                makeApiCall("post", "/item", {
-                  categoryID: categoryID,
-                  name: itemName,
-                  price: itemPrice,
-                  url: itemURL
-                }, handleResponse);
-              });
-        
-              $("#addCmpnBtn").click(function () {
-                var campaignName = $("#cmpgnname").val();
-                var isActive = $("#cmpgnactive").val() === "on";
-                var description = $("#cmpgndesc").val();
-                var startDate = $("#datetimepicker1").data("DateTimePicker").date().toDate();
-                var endDate = $("#datetimepicker2").data("DateTimePicker").date().toDate();
-                makeApiCall("post", "/campaign", {
-                  name: campaignName,
-                  description: description,
-                  active: isActive,
-                  startDate: startDate,
-                  endDate: endDate
-                }, handleResponse);
-              });
-        
-              $("#addWshlstBtn").click(function () {
-                var campaignID = $("#campaignList").val();
-                var itemID = $("#itemList").val();
-                var quantity = $("#itemQuantity").val();
-                var denomination = $("#itemDenomination").val();
-                makeApiCall("post", "/organisation/wishlist", {
-                  campaignID: campaignID,
-                  itemID: itemID,
-                  quantity: quantity,
-                  denomination: denomination
-                }, handleResponse);
-              });
+                moment().format();
+                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker2').datetimepicker();
+                $("#addCatBtn").click(function () {
+                    var categoryName = $("#catname").val().trim();
+                    makeApiCall("post", "/category", { name: categoryName }, handleResponse);
+                });
+
+                $("#addCmpnBtn").click(function () {
+                    var campaignName = $("#cmpgnname").val();
+                    var isActive = $("#cmpgnactive").val() === "on";
+                    var description = $("#cmpgndesc").val();
+                    var startDate = $("#datetimepicker1").data("DateTimePicker").date().toDate();
+                    var endDate = $("#datetimepicker2").data("DateTimePicker").date().toDate();
+                });
+                $(document).on('click', '.removec', function () {
+                    remove_element(this);
+                });
+
+                function remove_element(el) {
+                    console.log($(el).parent().remove());
+
+                }
+
             });
-        
-            // btn click listeners
-        
-        
-        
-            function makeApiCall(verb, resource, params, callback) {
-              $.ajax({
-                type: verb,
-                url: resource,
-                data: params,
-                headers: {
-                  Accept: "application/json"
-                },
-                success: callback,
-                error: callback
-              })
-            }
-          </script>
+        </script>
 </body>
 
 </html>

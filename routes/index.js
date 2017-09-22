@@ -12,7 +12,10 @@ router.get('/home', function (req, res, next) {
   res.render('home', { title: 'Express' });
 });
 router.get('/campaigns', function (req, res, next) {
-  res.render('pages/campaigns', { title: 'Express' });
+  var campaigns =[];
+  campaigns[1] = {name:"World-war-III"};
+  campaigns[2] = {name: "High School Charity"};
+  res.render('pages/campaigns', {campaigns});
 });
 router.get('/items', function (req, res, next) {
   var categories = [];

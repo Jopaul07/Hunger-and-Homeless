@@ -7,6 +7,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    padding-top: 70px;
 }
 
 p {
@@ -23,6 +24,9 @@ a, a:hover, a:focus {
     transition: all 0.3s;
 }
 
+.removec a:hover {
+    color: black;
+}
 
 
 .navbar {
@@ -201,7 +205,15 @@ a.article, a.article:hover {
     background: #6d7fcc !important;
     color: #fff !important;
 }
-
+.butt {
+    height: 4em;
+    outline: none;
+    min-width: 40em;
+    margin-bottom:1em;
+}
+.vis{
+    visibility: hidden;
+}
 
 
 /* ---------------------------------------------------
@@ -275,6 +287,26 @@ a.article, a.article:hover {
     }
     #sidebarCollapse span {
         display: none;
+    }
+    #camp button {
+        height: 4em;
+        min-width: 16em;
+        max-width: 16em;
+    }
+    #addcm{
+            visibility: hidden;
+    }
+    #content ol a i{
+        
+        visibility: visible;
+    }
+    .vis{
+        visibility: visible;
+        font-size: 3em;
+        color: green;
+    }
+    #addb a i:hover{
+        color: black;
     }
 }
 

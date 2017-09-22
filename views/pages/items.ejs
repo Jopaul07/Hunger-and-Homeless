@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default  custom-nav" id="navid">
+    <nav class="navbar navbar-default navbar-fixed-top custom-nav" id="navid">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -109,6 +109,9 @@
                 </nav>
                 <!-- Page Content Holder -->
                 <div id="content" class="cont-style">
+                        <ol class="breadcrumb">
+                                <li class="breadcrumb-item "><span style="color:#007bff;font-weight: bold">Items</span></li>
+                              </ol>
                     <div id="from-index" class="row">
 
 
@@ -116,7 +119,7 @@
                             <div class="row col-md-4">
                                 
 
-                                <label for="<%- items[i].name %>"><%= items[i].name %> ( <%= items[i].category %> ) - <%= items[i].price %> $ </label>
+                                
 
                                 <script>
                                     var il =<%- JSON.stringify(items.length) %>;
@@ -152,7 +155,7 @@
                             </thead>
                             <tbody>
                                 <% for (var i = 1; i < items.length; i++) { %>
-                                    <tr>
+                                    <tr style="font-weight: bolder;font-family: Courier New, Courier, monospace">
                                         <td>
                                             <%= i %>
                                         </td>
@@ -171,8 +174,10 @@
                     <!--table end-->
 
                     <div class="row col-md-12">
-
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addItemModal">Add Item</button>
+                            <div style="text-align: left">
+                                    <button type="button" class="btn btn-success btn-info" data-toggle="modal" data-target="#addItemModal" style="outline:none;border-color: white;">
+                                            Add Item</button></div>
+                        
                     </div>
                 </div>
                 <div id="addItemModal" class="modal fade" role="dialog">
@@ -182,7 +187,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">Add New Item</h4>
                             </div>
                             <div class="modal-body">
                                 <input type="text" name="name" placeholder="item name" id="itemName" /><br />
