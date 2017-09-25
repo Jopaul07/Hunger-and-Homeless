@@ -9,39 +9,39 @@ router.get('/test', function (req, res, next) {
   res.render('test', { title: 'Express' });
 });
 router.get('/home', function (req, res, next) {
-  res.render('home', { title: 'Express' });
+  res.render('home', { title: 'Express', active: { home: true } });
 });
 router.get('/campaigns', function (req, res, next) {
-  var campaigns =[];
-  campaigns[1] = {name:"World-war-III"};
-  campaigns[2] = {name: "High School Charity"};
+  var campaigns = [];
+  campaigns[1] = { name: "World-war-III" };
+  campaigns[2] = { name: "High School Charity" };
   var categories = [];
-  categories[1] = {name: "wepons"};
-  categories[2] = {name: "Nuclear"};
+  categories[1] = { name: "wepons" };
+  categories[2] = { name: "Nuclear" };
   var items = [];
-  items[1] = { name: "guns", price: '30',url:'weponstore.zn',category:'wepons' };
-  items[2] = { name: "rpg", price: '60',category:'wepons' };
-  items[3] = {name:"H2" , price:'888',category:'nuclear'};
-  res.render('pages/campaigns', {items,categories,campaigns});
+  items[1] = { name: "guns", price: '30', url: 'weponstore.zn', category: 'wepons' };
+  items[2] = { name: "rpg", price: '60', category: 'wepons' };
+  items[3] = { name: "H2", price: '888', category: 'nuclear' };
+  res.render('pages/campaigns', { items, categories, campaigns, active: { campaigns: true } });
 });
 router.get('/items', function (req, res, next) {
   var categories = [];
-  categories[1] = {name: "wepons"};
-  categories[2] = {name: "Nuclear"};
+  categories[1] = { name: "wepons" };
+  categories[2] = { name: "Nuclear" };
   var items = [];
-  items[1] = { name: "guns", price: '30',url:'weponstore.zn',category:'wepons' };
-  items[2] = { name: "rpg", price: '60',category:'wepons' };
-  items[3] = {name:"H2" , price:'888',category:'nuclear'};
-  res.render('pages/items', { items, categories });
+  items[1] = { name: "guns", price: '30', url: 'weponstore.zn', category: 'wepons' };
+  items[2] = { name: "rpg", price: '60', category: 'wepons' };
+  items[3] = { name: "H2", price: '888', category: 'nuclear' };
+  res.render('pages/items', { items, categories, active: { items: true } });
 });
 router.get('/cat', function (req, res, next) {
   var categories = [];
-  categories[1] = {name: "wepons"};
-  categories[2] = {name: "Nuclear"};
-  categories[3] = {name: "Food"};
-  res.render('pages/cat', {categories});
+  categories[1] = { name: "wepons" };
+  categories[2] = { name: "Nuclear" };
+  categories[3] = { name: "Food" };
+  res.render('pages/cat', { categories, active: { categories: true } });
 });
 router.get('/htest', function (req, res, next) {
-  res.render('htest', { title: 'Express' });
+  res.render('htest', { title: 'Express', active: { home: true } });
 });
 module.exports = router;
