@@ -183,8 +183,6 @@
         </div>
     </div>
 </div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript">
@@ -199,7 +197,7 @@
         $('#datetimepicker2').datetimepicker();
         $("#addCatBtn").click(function () {
             var categoryName = $("#catname").val().trim();
-            makeApiCall("post", "/category", { name: categoryName }, handleResponse);
+            // makeApiCall("post", "/category", { name: categoryName }, handleResponse);
         });
 
         $("#addCmpnBtn").click(function () {

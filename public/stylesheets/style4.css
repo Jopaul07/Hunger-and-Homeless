@@ -35,6 +35,7 @@ a, a:hover, a:focus {
     border-radius: 0;
     margin-bottom:0em;
     height: 5em;
+    background: #F3F3F3;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
