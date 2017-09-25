@@ -15,7 +15,14 @@ router.get('/campaigns', function (req, res, next) {
   var campaigns =[];
   campaigns[1] = {name:"World-war-III"};
   campaigns[2] = {name: "High School Charity"};
-  res.render('pages/campaigns', {campaigns});
+  var categories = [];
+  categories[1] = {name: "wepons"};
+  categories[2] = {name: "Nuclear"};
+  var items = [];
+  items[1] = { name: "guns", price: '30',url:'weponstore.zn',category:'wepons' };
+  items[2] = { name: "rpg", price: '60',category:'wepons' };
+  items[3] = {name:"H2" , price:'888',category:'nuclear'};
+  res.render('pages/campaigns', {items,categories,campaigns});
 });
 router.get('/items', function (req, res, next) {
   var categories = [];

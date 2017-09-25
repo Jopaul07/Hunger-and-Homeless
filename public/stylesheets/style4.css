@@ -25,7 +25,7 @@ a, a:hover, a:focus {
 }
 
 .removec a:hover {
-    color: black;
+    color: red;
 }
 
 
@@ -230,10 +230,25 @@ a.article, a.article:hover {
     margin-bottom: 1em; 
 }
 
+.wbutt{
+    margin-bottom: 1em;
+    background-color: steelblue;
+    border-color: transparent;
+    color: white;
+    border-radius: 4px;
+}
+.addwsh{
+    background-color: #5cb85c;
+}
 
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
+@media (max-width:1320px) {
+    .wbutt{
+        color: white;
+    }
+}
 
 @media (max-width: 768px) {
     

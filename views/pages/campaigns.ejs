@@ -114,7 +114,7 @@
                         <h2 style="text-shadow: 1px 2px darkgrey;text-align: center "><span class="label label-info">Campaigns </span></h1>
                     </div-->
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item "><span style="color:#007bff;font-weight: bold">Campaigns</span></li>
+                        <li class="breadcrumb-item "><span style="color:grey;">Campaigns</span></li>
 
                     </ol>
                     <div style="text-align: center" id="addcm">
@@ -129,26 +129,112 @@
 
                     <div id="camp" style="font-weight: bolder;font-family: Courier New, Courier, monospace">
                         <% for (var i = 1; i < campaigns.length; i++) { %>
-                            <div class="row col-md-12" style="text-align: center">
+                            <div class="row col-md-12">
                                 <div id="capmcnt<%= i %>">
-                                    <button class="btn btn-danger butt" type="button" data-toggle="collapse" data-target='#camp<%= i %>' aria-expanded="false"
-                                        aria-controls="footwear" style="outline:none;" id="button<%= i %>">
+                                    <div id="part1" class="col-md-12">
+                                        <button class="btn btn-danger butt" type="button" data-toggle="collapse" data-target='#camp<%= i %>' aria-expanded="false"
+                                            aria-controls="footwear" style="outline:none;" id="button<%= i %>">
                                         <b><%= campaigns[i].name %></b><span style="color:aqua;margin-left: 2em;"><%= campaigns[i].sdate %> <%= campaigns[i].edate %></span>
                                         
                                      </button>
-                                    <span style="font-size: 2em;color:teal" id="cross<%= i %>" class="removec"><a><i class="glyphicon glyphicon-remove-sign"></a></i></span>
-                                    <div class="collapse" id="camp<%= i %>" style="text-align:center;">
-                                        <p><span><%= campaigns[i].name %> arments worn on the feet, about campaign.</span>
-                                            <span style="display:block"><b>Start Date:<%= campaigns[i].sdate %></b></span>
-                                            <span><b>End Date:<%= campaigns[i].edate %></b></span>
-                                        </p>
+                                        <span style="font-size: 2em;color:teal" id="cross<%= i %>" class="removec"><a><i class="glyphicon glyphicon-remove-sign">
+                                            </a></i></span>
+                                        <div class="collapse" id="camp<%= i %>">
+                                            <div class="col-md-12">
+                                                <p><span><%= campaigns[i].name %> arments worn on the feet, about campaign......This Comrade is our comrade.Do needful help.Thank You.This project is targeted towards the welfare of blind and challenged people below poverty line.
+                                                    We must be concerned about the people who cannot live their life better than our worst imagined scenario.</span>
+                                                    <span style="display:block"><b>Start Date:<%= campaigns[i].sdate %></b></span>
+                                                    <span><b>End Date:<%= campaigns[i].edate %></b></span>
+                                                </p>
+                                               
+                                            </div>
+
+                                            <div id="part2" class="col-md-12">
+
+                                                <div id="pt<%= i %>">
+                                                    <div class="panel">
+                                                        <div class="panel-body  panel-info"><span style="text-align: center;color:steelblue;font-size: 26px;font-weight: bold">
+                                                            Wish List:
+                                                            <button class="btn addwsh" data-toggle="modal" data-target="#addwItemModal" style="outline:none;border-color: white;color:white">
+                                                                Add New Item 
+                                                            </button></span>
+
+
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover" id="item-table">
+                                                                    <thead>
+                                                                        <tr class="alert">
+                                                                            <th>Row</th>
+                                                                            <th>Item</th>
+                                                                            <th>Category</th>
+                                                                            <th>Price</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <% for (var j = 1; j < items.length; j++) { %>
+                                                                            <tr style="font-weight: bolder;font-family: Courier New, Courier, monospace">
+                                                                                <td>
+                                                                                    <%= j %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= items[j].name %>
+                                                                                </td>
+                                                                                <td><span class="label label-success"><%= items[j].category %></span></td>
+                                                                                <td>
+                                                                                    <%= items[j].price %> $</td>
+
+                                                                            </tr>
+                                                                            <% } %>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        
+                                                        <!--table end-->
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                             <% } %>
 
                     </div>
                 </div>
+                <div id="addwItemModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add New Item</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" name="name" placeholder="item name" id="itemName" /><br />
+                                <label>Category</label>
+                                <select id="categoryList">
+                                          <% for (var i = 1; i < categories.length; i++) { %>
+                                          <option value="<%- categories[i].id %>"><%- categories[i].name %></option>
+                                          <% } %>
+                                        </select>
+                                <br />
+                                <input type="text" name="price" placeholder="item price" id="itemPrice" /><br />
+                                <input type="text" name="url" placeholder="item url" id="itemUrl" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="addItemBtn">Add Item</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div id="addCampaignModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
@@ -249,7 +335,9 @@
                 });
 
                 function remove_element(el) {
+                    console.log($(el).parent().siblings().remove());
                     console.log($(el).parent().remove());
+
 
                 }
 
